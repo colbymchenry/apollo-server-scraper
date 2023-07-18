@@ -3,9 +3,10 @@ import { config } from "dotenv";
 
 config();
 
+console.log(process.env.NEXT_FIREBASE_ADMIN)
 try {
     admin.initializeApp({
-        credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_ADMIN)),
+        credential: admin.credential.cert(JSON.parse(process.env.NEXT_FIREBASE_ADMIN)),
     })
 
     admin.firestore().settings({

@@ -78,8 +78,14 @@ const startApolloServer = async (app, httpServer) => {
 
   await server.start();
   server.applyMiddleware({ app });
+
+  setTimeout(function () {
+    server.schema = buildSchema()
+  }, 10000)
 }
 
 startApolloServer(app, httpServer);
+
+
 
 export default httpServer;
