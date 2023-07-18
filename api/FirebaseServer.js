@@ -40,7 +40,7 @@ export class FirebaseAdmin {
         const querySnapshot = await FirebaseAdmin.firestore().collection(collection).get();
         let result = []
         querySnapshot.forEach((doc) => {
-            result.push({ ...doc.data(), doc_id: doc.id })
+            result.push({ ...doc.data(), id: doc.id })
         });
         return result;
     }
