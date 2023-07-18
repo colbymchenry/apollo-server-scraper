@@ -3,6 +3,10 @@ import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import http from "http";
 import express from "express";
 import cors from "cors";
+import {config} from "dotenv";
+import { FirebaseAdmin } from "./FirebaseServer";
+
+config();
 
 const app = express();
 app.use(cors());
@@ -11,13 +15,52 @@ const httpServer = http.createServer(app);
 
 const typeDefs = gql`
   type Query {
-    hello: String
+    scrapers: [Scraper!]
+    scraper(id: String): Scraper
   }
+
+  type Scraper {
+    id: ID!
+    name: String!
+    nextPageSelector: String
+    singleItemSelector: String
+    startUrl: String
+    url: String
+    rows: [ScraperSelector!]
+  }
+
+  type ScraperSelector {
+    label: String!
+    selector: String
+    keySelector: String
+    valueSelector: String
+    isImage: Boolean
+  }
+
+  type Settings {
+    id: ID!
+    bigcommerce: BigCommerceSettings
+    chatgpt: ChatGPTSettings
+  }
+
+  type BigCommerceSettings {
+    id: ID!
+    apiToken: String
+    clientId: String
+    clientSecret: String
+    storeHash: String
+  }
+
+  type ChatGPTSettings {
+    secretKey: String
+  }
+
 `;
 
 const resolvers = {
   Query: {
-    hello: () => "world",
+    scrapers: async () => await FirebaseAdmin.getCollectionArray("scrapers"),
+    scraper: async (id) => (await FirebaseAdmin.firestore().collection("scrapers").doc(id).get()).data()
   },
 };
 
