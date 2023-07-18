@@ -10,7 +10,9 @@ import admin from 'firebase-admin';
 config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "*"
+}));
 app.use(express.json());
 const httpServer = http.createServer(app);
 
