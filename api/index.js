@@ -3,6 +3,7 @@ import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import http from "http";
 import express from "express";
 import cors from "cors";
+import helmet from 'helmet';
 import {config} from "dotenv";
 import admin from 'firebase-admin';
 
@@ -10,9 +11,8 @@ import admin from 'firebase-admin';
 config();
 
 const app = express();
-app.use(cors({
-  origin: "*"
-}));
+app.use(helmet());
+app.use(cors());
 app.use(express.json());
 const httpServer = http.createServer(app);
 
@@ -87,7 +87,7 @@ const startApolloServer = async (app, httpServer) => {
 
   setTimeout(function () {
     server.schema = buildSchema()
-  }, 10000)
+  }, 1000)
 }
 
 startApolloServer(app, httpServer);
