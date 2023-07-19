@@ -1,5 +1,4 @@
-// import { ApolloServer, gql } from "apollo-server-express";
-import { ApolloServer, gql } from 'apollo-server-micro';
+import { ApolloServer, gql } from "apollo-server-express";
 import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import http from "http";
 import express from "express";
@@ -74,40 +73,28 @@ const resolvers = {
   },
 };
 
-// const startApolloServer = async (app, httpServer) => {
-//   const server = new ApolloServer({
-//     playground: true,
-//     introspection: true,
-//     typeDefs,
-//     resolvers,
-//     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
-//   });
+const startApolloServer = async (app, httpServer) => {
+  const server = new ApolloServer({
+    playground: true,
+    introspection: true,
+    typeDefs,
+    resolvers,
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+  });
 
-//   await server.start();
-//   server.applyMiddleware({ app });
+  await server.start();
+  server.applyMiddleware({ app });
 
-//   setTimeout(function () {
-//     server.schema = buildSchema()
-//   }, 10000)
-// }
+  setTimeout(function () {
+    server.schema = buildSchema()
+  }, 10000)
+}
 
-// startApolloServer(app, httpServer);
+startApolloServer(app, httpServer);
 
 
 
-// export default httpServer;
-
-const server = new ApolloServer({ typeDefs, resolvers });
-
-export default server.createHandler({
-  path: '/api/graphql',
-});
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+export default httpServer;
 
 
 
