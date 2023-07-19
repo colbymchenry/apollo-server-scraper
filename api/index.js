@@ -64,6 +64,7 @@ const resolvers = {
   Query: {
     scrapers: async () => await FirebaseAdmin.getCollectionArray("scrapers"),
     scraper: async (id) => {
+      console.log(id)
       const doc = await FirebaseAdmin.firestore().collection("scrapers").doc(id).get();
       return {id: doc.id, ...doc.data()}
     }
