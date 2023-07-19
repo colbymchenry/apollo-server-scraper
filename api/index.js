@@ -63,10 +63,7 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     scrapers: async () => await FirebaseAdmin.getCollectionArray("scrapers"),
-    scraper: async (_, args, data, _) => {
-      console.log("aRGS", args)
-      console.log("DATA", data)
-      console.log("ID: ========> " + args.id)
+    scraper: async (id) => {
       const doc = await FirebaseAdmin.firestore().collection("scrapers").doc(id).get();
       return {id: doc.id, ...doc.data()}
     }
